@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'carrierwave/dropbox/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "carrierwave-dropbox"
-  spec.version       = CarrierWave::Dropbox::VERSION
+  spec.version       = "1.2.0"
   spec.authors       = ["Robin Dupret"]
   spec.email         = ["robin.dupret@gmail.com"]
   spec.description   = %q{CarrierWave storage for Dropbox}
