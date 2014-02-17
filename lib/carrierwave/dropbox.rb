@@ -9,6 +9,6 @@ class CarrierWave::Uploader::Base
   add_config :dropbox_access_type
 
   configure do |config|
-    config.storage_engines[:dropbox] = 'CarrierWave::Storage::Dropbox'
+    config.storage_engines[:dropbox] = 'CarrierWave::Storage::Dropboks'
   end
 end

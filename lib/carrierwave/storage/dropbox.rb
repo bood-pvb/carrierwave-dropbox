@@ -3,7 +3,7 @@ require "dropbox-api"
 
 module CarrierWave
   module Storage
-    class Dropbox < Abstract
+    class Dropboks < Abstract
 
       # Stubs we must implement to create and save
       # files (here on Dropbox)
@@ -17,7 +17,7 @@ module CarrierWave
 
       # Retrieve a single file
       def retrieve!(file)
-        CarrierWave::Storage::Dropbox::File.new(uploader, config, uploader.store_path(file), dropbox_client)
+        CarrierWave::Storage::Dropboks::File.new(uploader, config, uploader.store_path(file), dropbox_client)
       end
 
       def dropbox_client
