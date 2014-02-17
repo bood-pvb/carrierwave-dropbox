@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'dropbox_sdk'
+require "dropbox-api/client"
 
 module CarrierWave
   module Storage
@@ -10,8 +10,9 @@ module CarrierWave
 
       # Store a single file
       def store!(file)
-        location = (config[:access_type] == "dropbox") ? "/#{location}" : uploader.store_path
-        dropbox_client.put_file(location, file.to_file)
+        location = (config[:access_type] == "sandbox") ? "/#{location}" : uploader.store_path
+        dropbox_client.upload(location, file.to_file)
+
       end
 
       # Retrieve a single file
@@ -20,11 +21,7 @@ module CarrierWave
       end
 
       def dropbox_client
-        @dropbox_client ||= begin
-          session = DropboxSession.new(config[:app_key], config[:app_secret])
-          session.set_access_token(config[:access_token], config[:access_token_secret])
-          DropboxClient.new(session, config[:access_type])
-        end
+        @dropbox_client ||= Dropbox::API::Client.new(token: config[:access_token], secret: config[:access_token_secret])
       end
 
       private
@@ -36,8 +33,7 @@ module CarrierWave
         @config[:app_secret] ||= uploader.dropbox_app_secret
         @config[:access_token] ||= uploader.dropbox_access_token
         @config[:access_token_secret] ||= uploader.dropbox_access_token_secret
-        @config[:access_type] ||= uploader.dropbox_access_type || "dropbox"
-        @config[:user_id] ||= uploader.dropbox_user_id
+        @config[:access_type] ||= uploader.dropbox_access_type || "sandbox"
 
         @config
       end
@@ -51,14 +47,14 @@ module CarrierWave
         end
 
         def url
-          @client.media(@path)["url"]
+          @client.find(@path).direct_url
         end
 
         def delete
           path = @path
-          path = "/#{path}" if @config[:access_type] == "dropbox"
+          path = "/#{path}" if @config[:access_type] == "sandbox"
           begin
-            @client.file_delete(path)
+            @client.find(@path).destroy
           rescue DropboxError
           end
         end
