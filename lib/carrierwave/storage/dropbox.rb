@@ -10,8 +10,8 @@ module CarrierWave
 
       # Store a single file
       def store!(file)
-        location = (config[:access_type] == "sandbox") ? "/#{location}" : uploader.store_path
-        dropbox_client.upload(location, file.to_file)
+        location = uploader.store_path
+        dropbox_client.upload(location, file.read)
 
       end
 
@@ -47,7 +47,11 @@ module CarrierWave
         end
 
         def url
-          @client.find(@path).direct_url
+		  begin
+            @client.find(@path).direct_url.url
+          rescue Exeption => ex
+			"/404"
+          end
         end
 
         def delete
