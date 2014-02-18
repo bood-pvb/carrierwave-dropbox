@@ -49,8 +49,8 @@ module CarrierWave
         def url
 		  begin
             @client.find(@path).direct_url.url
-          rescue Exeption => ex
-			"/404"
+          rescue Exception => ex
+		    "/404"
           end
         end
 
