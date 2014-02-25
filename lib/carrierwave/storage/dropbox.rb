@@ -47,10 +47,10 @@ module CarrierWave
         end
 
         def url
-		  begin
+          begin
             @client.find(@path).direct_url.url
-          rescue Exception => ex
-		    "/404"
+            rescue Exception => ex
+              "/404"
           end
         end
 
@@ -59,7 +59,8 @@ module CarrierWave
           path = "/#{path}" if @config[:access_type] == "sandbox"
           begin
             @client.find(@path).destroy
-          rescue DropboxError
+          rescue Exception => ex
+            true
           end
         end
       end
