@@ -54,6 +54,10 @@ module CarrierWave
           end
         end
 
+        def copy_ref
+          @client.find(@path).copy_ref['copy_ref']
+        end
+
         def delete
           path = @path
           path = "/#{path}" if @config[:access_type] == "sandbox"
