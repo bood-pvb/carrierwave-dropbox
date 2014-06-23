@@ -58,6 +58,14 @@ module CarrierWave
           @client.find(@path).copy_ref['copy_ref']
         end
 
+        def read
+          begin
+            @client.find(@path).download
+          rescue Exception
+            nil
+          end
+        end
+
         def delete
           path = @path
           path = "/#{path}" if @config[:access_type] == "sandbox"
