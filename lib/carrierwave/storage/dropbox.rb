@@ -65,13 +65,21 @@ module CarrierWave
             nil
           end
         end
+        
+        def exist?
+          begin
+            @client.find(@path) ? true : false
+          rescue Exception
+		    nil
+		  end
+		end
 
         def delete
           path = @path
           path = "/#{path}" if @config[:access_type] == "sandbox"
           begin
             @client.find(@path).destroy
-          rescue Exception => ex
+          rescue Exception
             true
           end
         end
